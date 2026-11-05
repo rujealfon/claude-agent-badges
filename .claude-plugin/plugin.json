@@ -1,1 +1,1 @@
-{ "name": "agent-badges", "version": "0.1.1", "description": "Shows each subagent's model and effort above the prompt and on Agent tool-call rows.", "types": "./types/index.d.ts" }
+{ "name": "agent-badges", "version": "0.1.2", "description": "Shows each subagent's model and effort above the prompt and on Agent tool-call rows.", "types": "./types/index.d.ts" }
