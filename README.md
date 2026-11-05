@@ -1,9 +1,10 @@
 # agent-badges
 
-A Claude Code mod that shows each subagent's model and effort. It tags the
-agent list rows with `[model · effort]`, adds a band above the prompt listing
-running subagents with their resolved model and effort, and adds a
-`↳ model · effort` line under each Agent tool-call row.
+A Claude Code mod that shows each subagent's model and effort. It adds a band
+above the prompt listing running subagents with their resolved model and
+effort, and adds a `↳ model · effort` line under each Agent tool-call row. The
+native agent list is left untouched, since the band already shows the same
+information.
 
 Model and effort come from the Agent call when it sets them, else from the
 agent's own definition file (`.claude/agents/<type>.md` in the project, then
