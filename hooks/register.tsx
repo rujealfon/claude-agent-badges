@@ -56,14 +56,11 @@ export const register: Register = on => {
   })
 
   on('agent.spawn', async ($, e, next) => {
-    // The agent list draws the task description, so tag it there. The model is
-    // what the call asked for; the band shows the resolved one.
+    // The band already shows model and effort, so leave the description alone.
     const def = await agentDefaults($, e.subagentType)
     const effort = efforts.get(e.tool_use_id) ?? def.effort ?? 'default'
-    const model = e.model ?? def.model ?? `${short(e.parentModel)} (inherit)`
-    const tag = `${model} · ${effort}`
-    const tagged = e.description.startsWith('[') ? e.description : `[${tag}] ${e.description}`
-    const r = await next({ ...e, description: tagged })
+    const tagged = e.description
+    const r = await next(e)
 
     if (r.deny === undefined) {
       const badge: Badge = { type: e.subagentType, model: r.model, effort }
