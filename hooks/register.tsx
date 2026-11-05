@@ -48,6 +48,7 @@ const agentDefaults = async (
 export const register: Register = on => {
   // Effort only exists on the Agent call's input, so keep it until the spawn.
   const efforts = new Map<string, string>()
+  let timer: ReturnType<typeof setInterval> | undefined
 
   on('tool.call', { tool: 'Agent' }, ($, e, next) => {
     if (e.effort) efforts.set(e.tool_use_id, e.effort)
@@ -72,6 +73,24 @@ export const register: Register = on => {
         [key]: badge,
         [`desc:${tagged}`]: badge,
       }))
+    }
+
+    // The band reads $.agent.list() only when it renders, so agents that start
+    // or finish between renders were missed. Re-render while any are live.
+    if (!timer) {
+      timer = setInterval(async () => {
+        try {
+          await update($, tick, n => n + 1)
+          const live = await $.agent.list()
+          if (!live.some(a => a.status === 'running' || a.status === 'pending')) {
+            clearInterval(timer)
+            timer = undefined
+          }
+        } catch {
+          clearInterval(timer)
+          timer = undefined
+        }
+      }, 2000)
     }
 
     return r
