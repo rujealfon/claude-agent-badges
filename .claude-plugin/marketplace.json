@@ -1,0 +1,5 @@
+{
+  "name": "claude-agent-badges",
+  "owner": { "name": "rujealfon" },
+  "plugins": [{ "name": "agent-badges", "source": "./" }]
+}
